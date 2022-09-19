@@ -25,6 +25,8 @@ import com.amsatech.api.repository.EmployeeRepository;
 @RequestMapping("/api/")
 public class EmployeeController {
 
+	private String employeeNotExist="Employee with next id does not exist: ";
+	
 	@Autowired
 	private EmployeeRepository employeeRepository;
 	
@@ -44,7 +46,7 @@ public class EmployeeController {
 	@GetMapping("/employees/{id}")
 	public ResponseEntity<Employee> getEmployeeById(@PathVariable Long id) {
 		Employee employee = employeeRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Employee not exist with id :" + id));
+				.orElseThrow(() -> new ResourceNotFoundException(employeeNotExist+id));
 		return ResponseEntity.ok(employee);
 	}
 	
@@ -52,7 +54,7 @@ public class EmployeeController {
 	@PutMapping("/employees/{id}")
 	public ResponseEntity<Employee> updateEmployee(@PathVariable Long id, @RequestBody Employee employeeDetails){
 		Employee employee = employeeRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Employee not exist with id :" + id));
+				.orElseThrow(() -> new ResourceNotFoundException(employeeNotExist+id));
 		
 		employee.setFirstName(employeeDetails.getFirstName());
 		employee.setLastName(employeeDetails.getLastName());
@@ -66,7 +68,7 @@ public class EmployeeController {
 	@DeleteMapping("/employees/{id}")
 	public ResponseEntity<Map<String, Boolean>> deleteEmployee(@PathVariable Long id){
 		Employee employee = employeeRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Employee not exist with id :" + id));
+				.orElseThrow(() -> new ResourceNotFoundException(employeeNotExist+id));
 		
 		employeeRepository.delete(employee);
 		Map<String, Boolean> response = new HashMap<>();
