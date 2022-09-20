@@ -22,7 +22,7 @@ import com.amsatech.api.repository.EmployeeRepository;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
-@RequestMapping("/api/")
+@RequestMapping("/api")
 public class EmployeeController {
 
 	private String employeeNotExist="Employee with next id does not exist: ";
